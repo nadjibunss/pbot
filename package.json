@@ -4,16 +4,12 @@
   "description": "WhatsApp Bot with pairing code, .template, .addbutton, and .test using @whiskeysockets/baileys",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js",
-    "dev": "nodemon bot.js"
+    "start": "node bot.js"
   },
   "author": "Nadjibalfiansyah",
   "license": "MIT",
   "dependencies": {
     "@whiskeysockets/baileys": "^7.0.0-rc.3",
     "@hapi/boom": "^10.0.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
   }
 }
