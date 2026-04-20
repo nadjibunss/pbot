@@ -100,7 +100,7 @@ async function connectToWhatsApp() {
   // Jika belum terdaftar, minta pairing code
   if (!sock.authState.creds.registered) {
     // Ganti dengan nomor WhatsApp Anda (tanpa +, -, spasi, atau tkurung)
-    const number = '628xxxxxxxxxx'; // ISI NOMOR ANDA DISINI
+    const number = '6285123533466'; // ISI NOMOR ANDA DISINI
     try {
       const code = await sock.requestPairingCode(number);
       console.log('Pairing code:', code);
