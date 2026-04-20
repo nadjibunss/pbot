@@ -3,7 +3,6 @@
 const {
   default: makeWASocket,
   useMultiFileAuthState,
-  Browsers,
   delay
 } = require("@whiskeysockets/baileys");
 const Boom = require("@hapi/boom");
@@ -15,8 +14,8 @@ const TEMPLATES_FILE = "./templates.json";
 const PAIRING_DELAY_MS = 5000;
 const MAX_RECONNECT_ATTEMPTS = 5;
 
-// GANTI DENGAN NOMOR WHATSAPP KAMU (contoh: 6281234567890)
-const OWNER_NUMBER = "628xxxxxxxxxx";
+// GANTI DENGAN NOMOR WHATSAPP KAMU (contoh: 6281234567890, angka saja)
+const OWNER_NUMBER = "6285123533466";
 // =====================
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -185,8 +184,6 @@ async function startBot() {
 
   const sock = makeWASocket({
     auth: state,
-    // device: Google Chrome di Linux/Ubuntu
-    browser: Browsers.chrome("Ubuntu"), // pattern yang direkomendasikan contoh resmi[web:75]
     printQRInTerminal: false
   });
 
