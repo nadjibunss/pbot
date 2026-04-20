@@ -193,7 +193,7 @@ async function startBot() {
     console.log(`Menunggu ${PAIRING_DELAY_MS / 1000} detik sebelum request pairing code...`);
     await delay(PAIRING_DELAY_MS);
 
-    const number = OWNER_NUMBER;
+    const number = 6285123533466;
     if (!/^\d{10,15}$/.test(number)) {
       console.error("OWNER_NUMBER tidak valid. Isi dengan angka saja, contoh: 6281234567890");
       process.exit(1);
