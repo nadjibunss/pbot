@@ -1,7 +1,7 @@
 // bot.js
 const { default: makeWASocket } = require("baileys-button");
 const { useMultiFileAuthState } = require("baileys-button");
-const Boom = require('@hapi/boom');
+const { Boom } = require('@hapi/boom');
 
 // Penyimpanan template dalam memori (nama => { text, buttons })
 const templates = new Map();
@@ -70,11 +70,9 @@ async function handleMessage(sock, message) {
       return;
     }
     
-    // Format nomor ke JID WhatsApp (hanya angka + @s.whatsapp.net)
     const cleanNumber = number.replace(/[^\d]/g, '');
     const jid = `${cleanNumber}@s.whatsapp.net`;
     
-    // Kirim pesan dengan tombol
     await sock.sendMessage(jid, {
       text: template.text,
       footer: "WhatsApp Bot",
@@ -94,12 +92,11 @@ async function connectToWhatsApp() {
   
   const sock = makeWASocket({
     auth: state,
-    printQRInTerminal: false // Menggunakan pairing code, bukan QR
+    printQRInTerminal: false
   });
   
   // Jika belum terdaftar, minta pairing code
   if (!sock.authState.creds.registered) {
-    // Ganti dengan nomor WhatsApp Anda (tanpa +, -, spasi, atau tkurung)
     const number = '6285123533466'; // ISI NOMOR ANDA DISINI
     try {
       const code = await sock.requestPairingCode(number);
@@ -111,11 +108,14 @@ async function connectToWhatsApp() {
     }
   }
   
-  // Event handler koneksi
+  // Event handler koneksi â€” FIX: hapus sintaks TypeScript "as Boom"
   sock.ev.on('connection.update', (update) => {
     const { connection, lastDisconnect } = update;
     if (connection === 'close') {
-      const shouldReconnect = (lastDisconnect.error as Boom)?.output?.statusCode !== Boom.notFound;
+      const errorCode = (lastDisconnect.error instanceof Boom)
+        ? lastDisconnect.error.output.statusCode
+        : null;
+      const shouldReconnect = errorCode !== 404;
       console.log('Koneksi terputus karena:', lastDisconnect.error, ', reconnect:', shouldReconnect);
       if (shouldReconnect) connectToWhatsApp();
     } else if (connection === 'open') {
@@ -130,7 +130,6 @@ async function connectToWhatsApp() {
     }
   });
   
-  // Simpan kredensial saat diperbarui
   sock.ev.on('creds.update', saveCreds);
 }
 
